@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using InglesWeb.Models;
 using Microsoft.AspNetCore.Authorization;
+using InglesWeb.Services;
 
 namespace InglesWeb.Controllers
 {
@@ -15,17 +16,20 @@ namespace InglesWeb.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ICapituloService capituloService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ICapituloService capituloService)
         {
             _logger = logger;
+            this.capituloService = capituloService;
         }
 
         [AllowAnonymous]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-
             _logger.LogInformation("Start Application !!");
+            var teste = await capituloService.GetCapitulo(1);
+
             return View();
         }
 

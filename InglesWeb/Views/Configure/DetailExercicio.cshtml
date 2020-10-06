@@ -1,0 +1,92 @@
+﻿@model ConfigureDetailExercicioViewModel
+
+@{
+    ViewBag.Title = "Detalhe Exercicio";
+    var photoPath = "~/Images/" + (Model.Exercicio.ExercicioImagePath ?? "noimage.jpg");
+}
+
+@section Headers
+{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" />
+}
+
+<h1>Exercicio</h1>
+
+@if (Model.Exercicio != null)
+{
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3>@Model.Exercicio.ExercicioNumber</h3>
+                </div>
+
+                <div class="card-body text-center">
+                    <p>@Model.Exercicio.ExercicioTexto</p>
+                    <img class="card-img-top imageDetails" src="@photoPath" asp-append-version="true" />
+                </div>
+
+                <div class="card-footer text-left">
+                    <form asp-controller="configure" asp-action="deleteExercicio" asp-route-id="@Model.Exercicio.ExercicioId" method="post">
+                        <a asp-controller="configure" asp-action="detail" asp-route-id="@Model.Exercicio.CapituloId" class="btn btn-secondary">Back</a>
+                        <a asp-controller="configure" asp-action="editExercicio" asp-route-id="@Model.Exercicio.ExercicioId" class="btn btn-primary">Edit</a>
+
+                        <span id="confirmDeleteSpan_@Model.Exercicio.ExercicioId" style="display:none">
+                            <span>Are you sure you want to delete?</span>
+                            <button type="submit" class="btn btn-danger">Yes</button>
+                            <a href="#" class="btn btn-primary"
+                               onclick="confirmDelete('@Model.Exercicio.ExercicioId', false)">No</a>
+                        </span>
+                        <span id="deleteSpan_@Model.Exercicio.ExercicioId">
+                            <a href="#" class="btn btn-danger"
+                               onclick="confirmDelete('@Model.Exercicio.ExercicioId', true)">Delete</a>
+                        </span>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<h1>Questões</h1>
+
+@if (Model.Questoes != null && Model.Questoes.Any())
+{
+
+    <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Number</th>
+                <th>Questão</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var questao in Model.Questoes)
+            {
+            <tr>
+                <td>@questao.QuestaoId</td>
+                <td>@questao.QuestaoNumber</td>
+                <td>@questao.QuestaoTexto</td>
+                <td><a class="btn btn-sm btn-primary" asp-controller="configure" asp-action="detailQuestao" asp-route-id="@questao.QuestaoId">Detail</a></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+}
+
+
+
+@section Scripts
+{
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/js/CustomScript.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+}

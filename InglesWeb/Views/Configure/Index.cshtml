@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Capitulo>
+
+@section Headers
+{
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/dataTables.bootstrap4.min.css" />
+}
+
+<h1>Capitulos</h1>
+
+<a class="btn btn-primary" asp-controller="Configure" asp-action="Create">Novo Capitulo</a>
+
+@if (Model.Any())
+{
+
+    <table id="example" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Number</th>
+                <th>Nome</th>
+                <th>Teoria</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var capitulo in Model)
+            {
+            <tr>
+                <td>@capitulo.CapituloId</td>
+                <td>@capitulo.CapituloNumber</td>
+                <td>@capitulo.CapituloNome</td>
+                <td>@(String.IsNullOrEmpty(capitulo.CapituloTeoria) ? "" : "Loaded")</td>
+                <td><a class="btn btn-sm btn-primary" asp-controller="configure" asp-action="detail" asp-route-id="@capitulo.CapituloId">Detail</a></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+
+}
+else
+{
+    <h1>Não exitem capitulos!</h1>
+}
+
+
+@section Scripts
+{
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.22/js/dataTables.bootstrap4.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+}

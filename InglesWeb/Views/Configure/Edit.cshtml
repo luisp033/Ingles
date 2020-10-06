@@ -1,0 +1,70 @@
+﻿@model ConfigureEditViewModel
+
+@{
+
+    ViewBag.Title = "Capitulo edição";
+    var photoPath = "~/Images/" + (Model.ExistingPhotoPath ?? "noimage.jpg");
+}
+
+    <h1>Capitulo edição</h1>
+
+
+    <form enctype="multipart/form-data" asp-controller="configure" asp-action="edit" method="post" class="mt-3">
+
+        <input hidden asp-for="CapituloId" />
+        <input hidden asp-for="ExistingPhotoPath" />
+
+        <div class="form-group row">
+            <label asp-for="CapituloNumber" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="CapituloNumber" class="form-control" placeholder="Número do capitulo">
+                <span asp-validation-for="CapituloNumber" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="CapituloNome" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <input asp-for="CapituloNome" class="form-control" placeholder="Nome do capitulo">
+                <span asp-validation-for="CapituloNome" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="CapituloTeoria" class="col-sm-2 col-form-label"></label>
+            <div class="col-sm-10">
+                <div class="custom-file">
+                    <input asp-for="CapituloTeoria" class="form-control custom-file-input">
+                    <label class="custom-file-label">Click here to change imagem</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row col-sm-4 offset-4">
+            <img src="@photoPath" class="imageDetails" asp-append-version="true" />
+        </div>
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <button type="submit" class="btn btn-primary">Update</button>
+                <a asp-controller="configure" asp-action="index" class="btn btn-danger">Cancel</a>
+            </div>
+        </div>
+
+        @section Scripts
+        {
+            <script>
+                $(document).ready(function () {
+                    $('.custom-file-input').on("change", function () {
+                        var fileName = $(this).val().split("\\").pop();
+                        $(this).next('.custom-file-label').html(fileName);
+                    });
+                });
+
+            </script>
+
+
+        }
+
+    </form>

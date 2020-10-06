@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InglesWeb.Models;
+using InglesWeb.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -31,6 +32,14 @@ namespace InglesWeb
 
             services.AddIdentity<IdentityUser, IdentityRole>()
                     .AddEntityFrameworkStores<AppDbContext>();
+
+            services.AddHttpClient<ICapituloService, CapituloService>(client => { 
+                client.BaseAddress = new Uri("https://localhost:44372/"); 
+            });
+            services.AddHttpClient<IExercicioService, ExercicioService>(client => {
+                client.BaseAddress = new Uri("https://localhost:44372/");
+            });
+
 
             services.AddControllersWithViews();
         }

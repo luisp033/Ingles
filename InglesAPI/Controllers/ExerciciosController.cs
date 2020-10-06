@@ -88,7 +88,7 @@ namespace InglesAPI.Controllers
         }
 
         // PUT api/Exercicios/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<ActionResult<Exercicio>> Put(Exercicio exercicio)
         {
             try

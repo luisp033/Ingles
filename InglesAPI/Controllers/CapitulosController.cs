@@ -81,7 +81,7 @@ namespace InglesAPI.Controllers
         }
 
         // PUT api/Capitulos/5
-        [HttpPut("{id}")]
+        [HttpPut]
         public async Task<ActionResult<Capitulo>> Put(Capitulo capitulo)
         {
             try
